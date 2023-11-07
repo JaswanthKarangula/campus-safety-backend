@@ -1,0 +1,8 @@
+host: 0.0.0.0:8080
+info:
+  contact: {}
+  description: Gym-backend API
+  title: Gym-backend API
+  version: "1.0"
+paths: {}
+swagger: "2.0"

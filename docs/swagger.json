@@ -1,0 +1,11 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Gym-backend API",
+        "title": "Gym-backend API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "0.0.0.0:8080",
+    "paths": {}
+}
