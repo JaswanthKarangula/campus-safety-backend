@@ -18,6 +18,39 @@ func (server *Server) SetUpCustomerRouter() {
 
 }
 
+type CreateNewCustomerIssueRequest struct {
+	Description string `json:"description" binding:"required"`
+	CustomerID  int64  `json:"customer_id" binding:"required"`
+}
+
+// CreateTags		godoc
+// @Summary			createNewCustomerIssue
+// @Description 	raises a new issue by customer  in Db.
+// @Param 			device body CreateNewCustomerIssueRequest true "raises a new issue by customer in Db"
+// @Produce 		application/json
+// @Tags 			customer
+// @Success 		200 {object} string
+// @Router			/customer/raiseCustomerIssue [post]
+func (server *Server) createNewCustomerIssue(ctx *gin.Context) {
+
+	var req CreateNewCustomerIssueRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+	arg := db.CreateCustomerIssueParams{
+		CustomerID:  req.CustomerID,
+		Description: req.Description,
+	}
+
+	res, err := service.CreateNewCustomerIssue(ctx, server.store, arg)
+	if err != nil {
+		parseError(err, ctx)
+	}
+
+	ctx.JSON(http.StatusOK, res)
+}
+
 type GetAllIssuesRequest struct {
 	CustomerID int64 `json:"customerid" binding:"required"`
 	Limit      int32 `json:"limit" binding:"required"`
@@ -151,7 +184,7 @@ type CreateNewCustomerRequest struct {
 // @Produce 		application/json
 // @Tags 			customer
 // @Success 		200 {object} string
-// @Router			/addNewDrone [post]
+// @Router			customer/createNewCustomer [post]
 func (server *Server) createNewCustomer(ctx *gin.Context) {
 
 	var req CreateNewCustomerRequest
@@ -186,7 +219,7 @@ type AddNewDroneRequest struct {
 // @Produce 		application/json
 // @Tags 			customer
 // @Success 		200 {object} string
-// @Router			/addNewDrone [post]
+// @Router			/customer/addNewDrone [post]
 func (server *Server) addNewDroneForCustomer(ctx *gin.Context) {
 
 	var req AddNewDroneRequest

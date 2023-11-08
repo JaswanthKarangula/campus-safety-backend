@@ -117,6 +117,16 @@ OFFSET $2; -- Page number (0-based)
 
 
 
+-- name: CreateCustomerIssue :one
+WITH new_issue AS (
+INSERT INTO "Issues" (description, status, comments)
+VALUES ($1, 'New', '')
+    RETURNING issue_id
+    )
+INSERT INTO "CustomerIssues" (customer_id, issue_id)
+SELECT $2, issue_id
+FROM new_issue
+RETURNING *;
 
 
 
