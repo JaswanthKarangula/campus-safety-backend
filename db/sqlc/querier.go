@@ -5,10 +5,22 @@
 package db
 
 import (
-
+	"context"
 )
 
 type Querier interface {
+	AddNewDrone(ctx context.Context, arg AddNewDroneParams) (Drone, error)
+	CreateNewCustomer(ctx context.Context, arg CreateNewCustomerParams) (Customer, error)
+	DeleteDrone(ctx context.Context, droneID int64) (Drone, error)
+	GetAlertsCountsByPriority(ctx context.Context, customerID int64) ([]GetAlertsCountsByPriorityRow, error)
+	GetAllActiveSecurityOfficers(ctx context.Context) ([]SecuritOfficer, error)
+	GetAllAlerts(ctx context.Context, customerID int64) (SafetyDetectionAlert, error)
+	GetAllDronesByCustomer(ctx context.Context, customerID int64) ([]Drone, error)
+	GetAllIssuesByAllSecurityOfficers(ctx context.Context, customerID int64) ([]Issue, error)
+	GetAllIssuesByCustomer(ctx context.Context, customerID int64) ([]Issue, error)
+	GetAllUnResolvedAlertsByDetectionType(ctx context.Context, arg GetAllUnResolvedAlertsByDetectionTypeParams) ([]SafetyDetectionAlert, error)
+	GetUnResolvedAlertsCountsByPriority(ctx context.Context, customerID int64) ([]GetUnResolvedAlertsCountsByPriorityRow, error)
+	StopDroneStream(ctx context.Context, arg StopDroneStreamParams) (Feed, error)
 }
 
 var _ Querier = (*Queries)(nil)

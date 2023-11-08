@@ -9,6 +9,10 @@ import (
 	"time"
 )
 
+type Admin struct {
+	AdminID int64 `json:"admin_id"`
+}
+
 type AlertHistory struct {
 	HistoryID             int64          `json:"history_id"`
 	AlertID               int64          `json:"alert_id"`
@@ -18,30 +22,53 @@ type AlertHistory struct {
 	ResolutionDate        time.Time      `json:"resolution_date"`
 }
 
-type CustomerOfficerMapping struct {
+type AlertsAssignment struct {
+	AlertID   int64 `json:"alert_id"`
+	OfficerID int64 `json:"officer_id"`
+}
+
+type Customer struct {
+	CustomerID    int64         `json:"customer_id"`
+	CustomerName  string        `json:"customer_name"`
+	AdminID       int64         `json:"admin_id"`
+	ResourceUsage sql.NullInt32 `json:"resource_usage"`
+}
+
+type CustomerIssue struct {
 	CustomerID int64 `json:"customer_id"`
-	OfficerID  int64 `json:"officer_id"`
+	AdminID    int64 `json:"admin_id"`
+	IssueID    int64 `json:"issue_id"`
 }
 
 type DetectionType struct {
-	DetectionID int64          `json:"detection_id"`
+	DetectionTypeID int64 `json:"detection_type_id"`
+	// critical, high, medium, or low
 	Type        string         `json:"type"`
 	Description sql.NullString `json:"description"`
 }
 
 type Drone struct {
-	DroneID    int64        `json:"drone_id"`
-	Model      string       `json:"model"`
+	DroneID    int64  `json:"drone_id"`
+	Model      string `json:"model"`
+	CustomerID int64  `json:"customer_id"`
+	// active,inactive,streaming
 	Status     string       `json:"status"`
 	LastActive sql.NullTime `json:"last_active"`
 }
 
-type DroneLocation struct {
-	LocationID int64     `json:"location_id"`
-	DroneID    int64     `json:"drone_id"`
-	Latitude   float64   `json:"latitude"`
-	Longitude  float64   `json:"longitude"`
-	Timestamp  time.Time `json:"timestamp"`
+type Feed struct {
+	StreamID int64         `json:"stream_id"`
+	DroneID  sql.NullInt64 `json:"drone_id"`
+	// active,inactive
+	Status string `json:"status"`
+}
+
+type Issue struct {
+	IssueID     int64     `json:"issue_id"`
+	Description string    `json:"description"`
+	Status      string    `json:"status"`
+	Comments    string    `json:"comments"`
+	CreatedAt   time.Time `json:"created_at"`
 }
 
 type Notification struct {
@@ -54,14 +81,25 @@ type Notification struct {
 }
 
 type SafetyDetectionAlert struct {
-	AlertID     int64          `json:"alert_id"`
-	Timestamp   time.Time      `json:"timestamp"`
-	FrameID     string         `json:"frame_id"`
-	DroneID     int64          `json:"drone_id"`
-	DetectionID int64          `json:"detection_id"`
-	Description sql.NullString `json:"description"`
-	Status      string         `json:"status"`
-	ReviewedBy  int64          `json:"reviewed_by"`
+	AlertID         int64          `json:"alert_id"`
+	Timestamp       time.Time      `json:"timestamp"`
+	FrameID         string         `json:"frame_id"`
+	DroneID         int64          `json:"drone_id"`
+	StreamID        int64          `json:"stream_id"`
+	DetectionTypeID int64          `json:"detection_type_id"`
+	Description     sql.NullString `json:"description"`
+	Status          string         `json:"status"`
+}
+
+type SecuritOfficer struct {
+	OfficerID  int64 `json:"officer_id"`
+	CustomerID int64 `json:"customer_id"`
+}
+
+type SecurityOfficerIssue struct {
+	CustomerID int64 `json:"customer_id"`
+	OfficerID  int64 `json:"officer_id"`
+	IssueID    int64 `json:"issue_id"`
 }
 
 type SecurityOfficerSchedule struct {
@@ -70,19 +108,15 @@ type SecurityOfficerSchedule struct {
 	StartTime  time.Time `json:"start_time"`
 	EndTime    time.Time `json:"end_time"`
 	// e.g., Mon,Tue,Wed
-	Days string `json:"days"`
-}
-
-type StaffCustomerMapping struct {
-	StaffID    int64 `json:"staff_id"`
-	CustomerID int64 `json:"customer_id"`
+	Day string `json:"day"`
 }
 
 type User struct {
-	UserID         int64     `json:"user_id"`
-	Username       string    `json:"username"`
-	Email          string    `json:"email"`
-	Hashedpassword string    `json:"hashedpassword"`
-	Role           string    `json:"role"`
-	CreatedAt      time.Time `json:"created_at"`
+	UserID         int64  `json:"user_id"`
+	Username       string `json:"username"`
+	Email          string `json:"email"`
+	Hashedpassword string `json:"hashedpassword"`
+	// Admin,Customer,Security Officer
+	Role      string    `json:"role"`
+	CreatedAt time.Time `json:"created_at"`
 }

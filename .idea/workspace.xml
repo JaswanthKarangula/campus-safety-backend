@@ -6,9 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="aaab5820-7efe-4465-a85a-fb2b08b33d81" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/migration/20231107040512_dbschema.sql.down.sql" beforeDir="false" afterPath="$PROJECT_DIR$/db/migration/20231107040512_dbschema.sql.down.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/migration/20231107040512_dbschema.sql.up.sql" beforeDir="false" afterPath="$PROJECT_DIR$/db/migration/20231107040512_dbschema.sql.up.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dbschema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/dbschema.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/query/queries.sql" beforeDir="false" afterPath="$PROJECT_DIR$/db/query/queries.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/sqlc/db.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/sqlc/models.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/sqlc/querier.go" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
