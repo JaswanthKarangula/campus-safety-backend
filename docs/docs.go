@@ -275,6 +275,37 @@ const docTemplate = `{
                 }
             }
         },
+        "/customer/stopDroneStream": {
+            "put": {
+                "description": "update stream.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "customer"
+                ],
+                "summary": "update stream",
+                "parameters": [
+                    {
+                        "description": "stop the stream",
+                        "name": "device",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.UpdateStreamRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/issue/updateIssue": {
             "put": {
                 "description": "updates an issue by officer  in Db.",
@@ -520,6 +551,17 @@ const docTemplate = `{
                 },
                 "status": {
                     "type": "string"
+                }
+            }
+        },
+        "api.UpdateStreamRequest": {
+            "type": "object",
+            "required": [
+                "stream_id"
+            ],
+            "properties": {
+                "stream_id": {
+                    "type": "integer"
                 }
             }
         },

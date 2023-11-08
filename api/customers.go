@@ -16,7 +16,36 @@ func (server *Server) SetUpCustomerRouter() {
 	server.router.GET("/customer/getAllOfficerIssues", server.getAllOfficerIssues)
 	server.router.GET("/customer/getAllIssuesByCustomer", server.getAllIssuesByCustomer)
 	server.router.POST("/customer/raiseCustomerIssue", server.createNewCustomerIssue)
+	server.router.PUT("/customer/stopDroneStream", server.stopDroneStream)
 
+}
+
+type UpdateStreamRequest struct {
+	StreamID int64 `json:"stream_id" binding:"required"`
+}
+
+// CreateTags		godoc
+// @Summary			update stream
+// @Description 	update stream.
+// @Param 			device body UpdateStreamRequest true "stop the stream"
+// @Produce 		application/json
+// @Tags 			customer
+// @Success 		200 {object} string
+// @Router			/customer/stopDroneStream [put]
+func (server *Server) stopDroneStream(ctx *gin.Context) {
+
+	var req UpdateStreamRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+
+	res, err := service.StopDroneStream(ctx, server.store, req.StreamID)
+	if err != nil {
+		parseError(err, ctx)
+	}
+
+	ctx.JSON(http.StatusOK, res)
 }
 
 type CreateNewCustomerIssueRequest struct {

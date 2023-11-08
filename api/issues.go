@@ -11,6 +11,7 @@ func (server *Server) SetUpIssueRouter() {
 	server.router.PUT("/issue/updateIssue", server.updateIssue)
 }
 
+// TODO:: Add validators for status
 type UpdateIssueRequest struct {
 	Status   string `json:"status" binding:"required""`
 	Comments string `json:"comments" binding:"required"`

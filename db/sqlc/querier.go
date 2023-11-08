@@ -28,7 +28,7 @@ type Querier interface {
 	GetAllUnResolvedAlertsByDetectionType(ctx context.Context, arg GetAllUnResolvedAlertsByDetectionTypeParams) ([]SafetyDetectionAlert, error)
 	GetUnResolvedAlertsCountsByPriority(ctx context.Context, customerID int64) ([]GetUnResolvedAlertsCountsByPriorityRow, error)
 	GetUser(ctx context.Context, userID int64) (User, error)
-	StopDroneStream(ctx context.Context, arg StopDroneStreamParams) (Feed, error)
+	StopDroneStream(ctx context.Context, streamID int64) (Drone, error)
 	UpdateIssueStatus(ctx context.Context, arg UpdateIssueStatusParams) (Issue, error)
 }
 

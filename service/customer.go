@@ -5,6 +5,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func StopDroneStream(ctx *gin.Context, store db.Store, streamId int64) (string, error) {
+	_, err := store.StopDroneStream(ctx, streamId)
+	//TODO:: should call the stop stream simulator
+	if err != nil {
+		return "", err
+	}
+	return "Successfully Raised Issue", nil
+}
+
 func CreateNewCustomerIssue(ctx *gin.Context, store db.Store, req db.CreateCustomerIssueParams) (string, error) {
 	_, err := store.CreateCustomerIssue(ctx, req)
 	if err != nil {

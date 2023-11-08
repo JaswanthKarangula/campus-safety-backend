@@ -43,9 +43,18 @@ VALUES ($1,$2,$3, NOW())
 
 
 -- name: StopDroneStream :one
+WITH update_drone AS (
 UPDATE "Feeds"
 SET status = 'inactive'
-WHERE drone_id = $1 and stream_id=$2 RETURNING *;
+WHERE stream_id = $1
+      RETURNING drone_id
+)
+UPDATE "Drones"
+SET status = 'inactive'
+WHERE drone_id = (SELECT drone_id FROM update_drone)
+RETURNING *;
+
+
 
 -- name: GetAllAlerts :one
 SELECT sda.*

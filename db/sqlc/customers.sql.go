@@ -7,7 +7,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 )
 
 const addNewDrone = `-- name: AddNewDrone :one
@@ -444,19 +443,27 @@ func (q *Queries) GetUnResolvedAlertsCountsByPriority(ctx context.Context, custo
 }
 
 const stopDroneStream = `-- name: StopDroneStream :one
+WITH update_drone AS (
 UPDATE "Feeds"
 SET status = 'inactive'
-WHERE drone_id = $1 and stream_id=$2 RETURNING stream_id, drone_id, status
+WHERE stream_id = $1
+      RETURNING drone_id
+)
+UPDATE "Drones"
+SET status = 'inactive'
+WHERE drone_id = (SELECT drone_id FROM update_drone)
+RETURNING drone_id, model, customer_id, status, last_active
 `
 
-type StopDroneStreamParams struct {
-	DroneID  sql.NullInt64 `json:"drone_id"`
-	StreamID int64         `json:"stream_id"`
-}
-
-func (q *Queries) StopDroneStream(ctx context.Context, arg StopDroneStreamParams) (Feed, error) {
-	row := q.db.QueryRowContext(ctx, stopDroneStream, arg.DroneID, arg.StreamID)
-	var i Feed
-	err := row.Scan(&i.StreamID, &i.DroneID, &i.Status)
+func (q *Queries) StopDroneStream(ctx context.Context, streamID int64) (Drone, error) {
+	row := q.db.QueryRowContext(ctx, stopDroneStream, streamID)
+	var i Drone
+	err := row.Scan(
+		&i.DroneID,
+		&i.Model,
+		&i.CustomerID,
+		&i.Status,
+		&i.LastActive,
+	)
 	return i, err
 }

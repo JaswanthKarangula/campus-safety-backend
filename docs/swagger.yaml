@@ -103,6 +103,13 @@ definitions:
     - issue_id
     - status
     type: object
+  api.UpdateStreamRequest:
+    properties:
+      stream_id:
+        type: integer
+    required:
+    - stream_id
+    type: object
   db.Drone:
     properties:
       customer_id:
@@ -327,6 +334,26 @@ paths:
           schema:
             type: string
       summary: createNewCustomerIssue
+      tags:
+      - customer
+  /customer/stopDroneStream:
+    put:
+      description: update stream.
+      parameters:
+      - description: stop the stream
+        in: body
+        name: device
+        required: true
+        schema:
+          $ref: '#/definitions/api.UpdateStreamRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: update stream
       tags:
       - customer
   /issue/updateIssue:
