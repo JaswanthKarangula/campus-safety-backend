@@ -164,6 +164,7 @@ add _ "dronesaefty-backend/docs" in main
 add router docs swagger
 add annotations swagger in main function
 swag init
+swag init --parseDependency
 add annotations to controller
 
 ## AWS Github Actions

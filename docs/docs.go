@@ -275,6 +275,37 @@ const docTemplate = `{
                 }
             }
         },
+        "/issue/updateIssue": {
+            "put": {
+                "description": "updates an issue by officer  in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "issue"
+                ],
+                "summary": "updateIssue",
+                "parameters": [
+                    {
+                        "description": "updates an  issue  in Db",
+                        "name": "device",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.UpdateIssueRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/officer/createOfficer": {
             "post": {
                 "description": "adds a New Security officer For Customer  in Db.",
@@ -470,6 +501,25 @@ const docTemplate = `{
                 },
                 "offset": {
                     "type": "integer"
+                }
+            }
+        },
+        "api.UpdateIssueRequest": {
+            "type": "object",
+            "required": [
+                "comments",
+                "issue_id",
+                "status"
+            ],
+            "properties": {
+                "comments": {
+                    "type": "string"
+                },
+                "issue_id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
                 }
             }
         },

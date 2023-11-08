@@ -72,6 +72,7 @@ func (server *Server) setupRouter() {
 	server.SetUpAdminRouter()
 	server.SetUpCustomerRouter()
 	server.SetUpSecurityOfficerRouter()
+	server.SetUpIssueRouter()
 }
 
 // Start runs the HTTP server on a specific address.

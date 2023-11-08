@@ -29,6 +29,7 @@ type Querier interface {
 	GetUnResolvedAlertsCountsByPriority(ctx context.Context, customerID int64) ([]GetUnResolvedAlertsCountsByPriorityRow, error)
 	GetUser(ctx context.Context, userID int64) (User, error)
 	StopDroneStream(ctx context.Context, arg StopDroneStreamParams) (Feed, error)
+	UpdateIssueStatus(ctx context.Context, arg UpdateIssueStatusParams) (Issue, error)
 }
 
 var _ Querier = (*Queries)(nil)

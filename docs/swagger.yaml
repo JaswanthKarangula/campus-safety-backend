@@ -90,6 +90,19 @@ definitions:
     - limit
     - offset
     type: object
+  api.UpdateIssueRequest:
+    properties:
+      comments:
+        type: string
+      issue_id:
+        type: integer
+      status:
+        type: string
+    required:
+    - comments
+    - issue_id
+    - status
+    type: object
   db.Drone:
     properties:
       customer_id:
@@ -316,6 +329,26 @@ paths:
       summary: createNewCustomerIssue
       tags:
       - customer
+  /issue/updateIssue:
+    put:
+      description: updates an issue by officer  in Db.
+      parameters:
+      - description: updates an  issue  in Db
+        in: body
+        name: device
+        required: true
+        schema:
+          $ref: '#/definitions/api.UpdateIssueRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: updateIssue
+      tags:
+      - issue
   /officer/createOfficer:
     post:
       description: adds a New Security officer For Customer  in Db.
