@@ -7,6 +7,7 @@ package db
 
 import (
 	"context"
+	"time"
 )
 
 const createNewSecurityOfficer = `-- name: CreateNewSecurityOfficer :one
@@ -64,6 +65,41 @@ func (q *Queries) CreateSecurityOfficerIssue(ctx context.Context, arg CreateSecu
 	return i, err
 }
 
+const deleteOfficerSchedule = `-- name: DeleteOfficerSchedule :many
+DELETE FROM "SecurityOfficerSchedule"
+WHERE officer_id = $1
+RETURNING schedule_id, officer_id, start_time, end_time, day
+`
+
+func (q *Queries) DeleteOfficerSchedule(ctx context.Context, officerID int64) ([]SecurityOfficerSchedule, error) {
+	rows, err := q.db.QueryContext(ctx, deleteOfficerSchedule, officerID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []SecurityOfficerSchedule{}
+	for rows.Next() {
+		var i SecurityOfficerSchedule
+		if err := rows.Scan(
+			&i.ScheduleID,
+			&i.OfficerID,
+			&i.StartTime,
+			&i.EndTime,
+			&i.Day,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getAllIssuesByAllSecurityOfficers = `-- name: GetAllIssuesByAllSecurityOfficers :many
 SELECT i.issue_id, i.description, i.status, i.comments, i.created_at
 FROM "Issues" i
@@ -100,4 +136,38 @@ func (q *Queries) GetAllIssuesByAllSecurityOfficers(ctx context.Context, custome
 		return nil, err
 	}
 	return items, nil
+}
+
+const updateSchedule = `-- name: UpdateSchedule :one
+UPDATE "SecurityOfficerSchedule"
+SET start_time = $2,
+    end_time = $3,
+    day = $4
+WHERE officer_id = $1
+RETURNING schedule_id, officer_id, start_time, end_time, day
+`
+
+type UpdateScheduleParams struct {
+	OfficerID int64     `json:"officer_id"`
+	StartTime time.Time `json:"start_time"`
+	EndTime   time.Time `json:"end_time"`
+	Day       string    `json:"day"`
+}
+
+func (q *Queries) UpdateSchedule(ctx context.Context, arg UpdateScheduleParams) (SecurityOfficerSchedule, error) {
+	row := q.db.QueryRowContext(ctx, updateSchedule,
+		arg.OfficerID,
+		arg.StartTime,
+		arg.EndTime,
+		arg.Day,
+	)
+	var i SecurityOfficerSchedule
+	err := row.Scan(
+		&i.ScheduleID,
+		&i.OfficerID,
+		&i.StartTime,
+		&i.EndTime,
+		&i.Day,
+	)
+	return i, err
 }

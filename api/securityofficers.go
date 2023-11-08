@@ -5,12 +5,62 @@ import (
 	"dronesaefty-backend/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"time"
 )
 
 func (server *Server) SetUpSecurityOfficerRouter() {
 
 	server.router.POST("/officer/createOfficer", server.createNewAdmin)
 	server.router.POST("/officer/raiseOfficerIssue", server.createNewOfficerIssue)
+	server.router.PUT("/officer/updateSchedule", server.updateOfficerSchedule)
+
+}
+
+type UpdateOfficerScheduleRequest struct {
+	OfficerID int64     `json:"officerid" binding:"required"`
+	StartTime time.Time `json:"start_time" binding:"required"`
+	EndTime   time.Time `json:"end_time" binding:"required"`
+	Day       string    `json:"day" binding:"required"`
+}
+
+func ConvertRequestsToParams(reqs []UpdateOfficerScheduleRequest) []db.UpdateScheduleParams {
+	params := make([]db.UpdateScheduleParams, len(reqs))
+
+	for i, req := range reqs {
+		param := db.UpdateScheduleParams{
+			OfficerID: req.OfficerID,
+			StartTime: req.StartTime,
+			EndTime:   req.EndTime,
+			Day:       req.Day,
+		}
+		params[i] = param
+	}
+
+	return params
+}
+
+// CreateTags		godoc
+// @Summary			updateOfficerSchedule
+// @Description 	update schedule.
+// @Param 			device body []UpdateOfficerScheduleRequest true "stop the stream"
+// @Produce 		application/json
+// @Tags 			officer
+// @Success 		200 {object} []db.UpdateScheduleParams
+// @Router			/officer/updateSchedule [put]
+func (server *Server) updateOfficerSchedule(ctx *gin.Context) {
+
+	var req []UpdateOfficerScheduleRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+	arg := ConvertRequestsToParams(req)
+	res, err := service.UpdateSchedules(ctx, server.store, arg)
+	if err != nil {
+		parseError(err, ctx)
+	}
+
+	ctx.JSON(http.StatusOK, res)
 }
 
 type CreateNewOfficerIssueRequest struct {

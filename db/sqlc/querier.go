@@ -17,6 +17,7 @@ type Querier interface {
 	CreateNewSecurityOfficer(ctx context.Context, arg CreateNewSecurityOfficerParams) (SecuritOfficer, error)
 	CreateSecurityOfficerIssue(ctx context.Context, arg CreateSecurityOfficerIssueParams) (SecurityOfficerIssue, error)
 	DeleteDrone(ctx context.Context, droneID int64) (Drone, error)
+	DeleteOfficerSchedule(ctx context.Context, officerID int64) ([]SecurityOfficerSchedule, error)
 	GetAlertsCountsByPriority(ctx context.Context, customerID int64) ([]GetAlertsCountsByPriorityRow, error)
 	GetAllActiveSecurityOfficers(ctx context.Context, customerID int64) ([]User, error)
 	GetAllAlerts(ctx context.Context, customerID int64) (SafetyDetectionAlert, error)
@@ -30,6 +31,7 @@ type Querier interface {
 	GetUser(ctx context.Context, userID int64) (User, error)
 	StopDroneStream(ctx context.Context, streamID int64) (Drone, error)
 	UpdateIssueStatus(ctx context.Context, arg UpdateIssueStatusParams) (Issue, error)
+	UpdateSchedule(ctx context.Context, arg UpdateScheduleParams) (SecurityOfficerSchedule, error)
 }
 
 var _ Querier = (*Queries)(nil)

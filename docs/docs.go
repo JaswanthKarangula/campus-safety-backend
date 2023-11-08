@@ -398,6 +398,43 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/officer/updateSchedule": {
+            "put": {
+                "description": "update schedule.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "officer"
+                ],
+                "summary": "updateOfficerSchedule",
+                "parameters": [
+                    {
+                        "description": "stop the stream",
+                        "name": "device",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/api.UpdateOfficerScheduleRequest"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/db.UpdateScheduleParams"
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -554,6 +591,29 @@ const docTemplate = `{
                 }
             }
         },
+        "api.UpdateOfficerScheduleRequest": {
+            "type": "object",
+            "required": [
+                "day",
+                "end_time",
+                "officerid",
+                "start_time"
+            ],
+            "properties": {
+                "day": {
+                    "type": "string"
+                },
+                "end_time": {
+                    "type": "string"
+                },
+                "officerid": {
+                    "type": "integer"
+                },
+                "start_time": {
+                    "type": "string"
+                }
+            }
+        },
         "api.UpdateStreamRequest": {
             "type": "object",
             "required": [
@@ -602,6 +662,23 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "db.UpdateScheduleParams": {
+            "type": "object",
+            "properties": {
+                "day": {
+                    "type": "string"
+                },
+                "end_time": {
+                    "type": "string"
+                },
+                "officer_id": {
+                    "type": "integer"
+                },
+                "start_time": {
                     "type": "string"
                 }
             }

@@ -103,6 +103,22 @@ definitions:
     - issue_id
     - status
     type: object
+  api.UpdateOfficerScheduleRequest:
+    properties:
+      day:
+        type: string
+      end_time:
+        type: string
+      officerid:
+        type: integer
+      start_time:
+        type: string
+    required:
+    - day
+    - end_time
+    - officerid
+    - start_time
+    type: object
   api.UpdateStreamRequest:
     properties:
       stream_id:
@@ -135,6 +151,17 @@ definitions:
       issue_id:
         type: integer
       status:
+        type: string
+    type: object
+  db.UpdateScheduleParams:
+    properties:
+      day:
+        type: string
+      end_time:
+        type: string
+      officer_id:
+        type: integer
+      start_time:
         type: string
     type: object
   db.User:
@@ -416,4 +443,28 @@ paths:
       summary: createNewOfficerIssue
       tags:
       - customer
+  /officer/updateSchedule:
+    put:
+      description: update schedule.
+      parameters:
+      - description: stop the stream
+        in: body
+        name: device
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/api.UpdateOfficerScheduleRequest'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.UpdateScheduleParams'
+            type: array
+      summary: updateOfficerSchedule
+      tags:
+      - officer
 swagger: "2.0"

@@ -29,3 +29,17 @@ SELECT $2, issue_id
 FROM new_issue
 RETURNING *;
 
+
+-- name: UpdateSchedule :one
+UPDATE "SecurityOfficerSchedule"
+SET start_time = $2,
+    end_time = $3,
+    day = $4
+WHERE officer_id = $1
+RETURNING *;
+
+-- name: DeleteOfficerSchedule :many
+DELETE FROM "SecurityOfficerSchedule"
+WHERE officer_id = $1
+RETURNING *;
+
