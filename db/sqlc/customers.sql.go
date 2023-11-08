@@ -224,14 +224,33 @@ func (q *Queries) GetAllDronesByCustomer(ctx context.Context, customerID int64) 
 }
 
 const getAllIssuesByCustomer = `-- name: GetAllIssuesByCustomer :many
+
 SELECT i.issue_id, i.description, i.status, i.comments, i.created_at
 FROM "Issues" i
-         JOIN "Customers" c ON i.customer_id = c.customer_id
+         JOIN "CustomerIssues" ci ON i.issue_id = ci.issue_id
+         JOIN "Customers" c ON ci.customer_id = c.customer_id
 WHERE c.customer_id = $1
+ORDER BY
+    CASE
+        WHEN i.status = 'New' THEN 1
+        WHEN i.status = 'Pending' THEN 2
+        WHEN i.status = 'Resolved' THEN 3
+        ELSE 4
+        END,
+    i.created_at
+    LIMIT $3 -- Number of issues per page
+OFFSET $2
 `
 
-func (q *Queries) GetAllIssuesByCustomer(ctx context.Context, customerID int64) ([]Issue, error) {
-	rows, err := q.db.QueryContext(ctx, getAllIssuesByCustomer, customerID)
+type GetAllIssuesByCustomerParams struct {
+	CustomerID int64 `json:"customer_id"`
+	Offset     int32 `json:"offset"`
+	Limit      int32 `json:"limit"`
+}
+
+// Page number (0-based)
+func (q *Queries) GetAllIssuesByCustomer(ctx context.Context, arg GetAllIssuesByCustomerParams) ([]Issue, error) {
+	rows, err := q.db.QueryContext(ctx, getAllIssuesByCustomer, arg.CustomerID, arg.Offset, arg.Limit)
 	if err != nil {
 		return nil, err
 	}

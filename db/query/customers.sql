@@ -16,13 +16,6 @@ WHERE drone_id = $1 RETURNING *;
 
 
 
-
--- name: GetAllIssuesByCustomer :many
-SELECT i.*
-FROM "Issues" i
-         JOIN "Customers" c ON i.customer_id = c.customer_id
-WHERE c.customer_id = $1;
-
 -- name: GetAllDronesByCustomer :many
 SELECT d.*
 FROM "Drones" d
@@ -104,6 +97,24 @@ ORDER BY
     i.created_at
     LIMIT $3 -- Number of issues per page
 OFFSET $2; -- Page number (0-based)
+
+-- name: GetAllIssuesByCustomer :many
+SELECT i.*
+FROM "Issues" i
+         JOIN "CustomerIssues" ci ON i.issue_id = ci.issue_id
+         JOIN "Customers" c ON ci.customer_id = c.customer_id
+WHERE c.customer_id = $1
+ORDER BY
+    CASE
+        WHEN i.status = 'New' THEN 1
+        WHEN i.status = 'Pending' THEN 2
+        WHEN i.status = 'Resolved' THEN 3
+        ELSE 4
+        END,
+    i.created_at
+    LIMIT $3 -- Number of issues per page
+OFFSET $2; -- Page number (0-based)
+
 
 
 

@@ -57,7 +57,7 @@ definitions:
     required:
     - customerid
     type: object
-  api.GetAllOfficerIssuesRequest:
+  api.GetAllIssuesRequest:
     properties:
       customerid:
         type: integer
@@ -157,6 +157,26 @@ paths:
       summary: getAllDrones
       tags:
       - customer
+  /customer/getAllIssuesByCustomer:
+    get:
+      description: returns all issues raised by Customer.
+      parameters:
+      - description: returns all issues raised by customers  in Db
+        in: body
+        name: device
+        required: true
+        schema:
+          $ref: '#/definitions/api.GetAllIssuesRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: getAllIssuesByCustomer
+      tags:
+      - customer
   /customer/getAllOfficerIssues:
     get:
       description: returns all issues raised by officers  of a Customer.
@@ -166,7 +186,7 @@ paths:
         name: device
         required: true
         schema:
-          $ref: '#/definitions/api.GetAllOfficerIssuesRequest'
+          $ref: '#/definitions/api.GetAllIssuesRequest'
       produces:
       - application/json
       responses:

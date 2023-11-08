@@ -14,26 +14,56 @@ func (server *Server) SetUpCustomerRouter() {
 	server.router.GET("/customer/getAllActiveOfficers", server.getActiveOfficers)
 	server.router.GET("/customer/getAllDrones", server.getAllDrones)
 	server.router.GET("/customer/getAllOfficerIssues", server.getAllOfficerIssues)
+	server.router.GET("/customer/getAllIssuesByCustomer", server.getAllIssuesByCustomer)
 
 }
 
-type GetAllOfficerIssuesRequest struct {
+type GetAllIssuesRequest struct {
 	CustomerID int64 `json:"customerid" binding:"required"`
 	Limit      int32 `json:"limit" binding:"required"`
 	Offset     int32 `json:"offset" binding:"required"`
 }
 
 // CreateTags		godoc
+// @Summary			getAllIssuesByCustomer
+// @Description 	returns all issues raised by Customer.
+// @Param 			device body GetAllIssuesRequest true "returns all issues raised by customers  in Db"
+// @Produce 		application/json
+// @Tags 			customer
+// @Success 		200 {object} string
+// @Router			/customer/getAllIssuesByCustomer [get]
+func (server *Server) getAllIssuesByCustomer(ctx *gin.Context) {
+
+	var req GetAllIssuesRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+	arg := db.GetAllIssuesByCustomerParams{
+		CustomerID: req.CustomerID,
+		Limit:      req.Limit,
+		Offset:     req.Offset,
+	}
+
+	res, err := service.GetAllCustomerIssues(ctx, server.store, arg)
+	if err != nil {
+		parseError(err, ctx)
+	}
+
+	ctx.JSON(http.StatusOK, res)
+}
+
+// CreateTags		godoc
 // @Summary			getAllOfficerIssues
 // @Description 	returns all issues raised by officers  of a Customer.
-// @Param 			device body GetAllOfficerIssuesRequest true "returns all issues raised by officers  of a Customer in Db"
+// @Param 			device body GetAllIssuesRequest true "returns all issues raised by officers  of a Customer in Db"
 // @Produce 		application/json
 // @Tags 			customer
 // @Success 		200 {object} string
 // @Router			/customer/getAllOfficerIssues [get]
 func (server *Server) getAllOfficerIssues(ctx *gin.Context) {
 
-	var req GetAllOfficerIssuesRequest
+	var req GetAllIssuesRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return

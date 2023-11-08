@@ -139,6 +139,37 @@ const docTemplate = `{
                 }
             }
         },
+        "/customer/getAllIssuesByCustomer": {
+            "get": {
+                "description": "returns all issues raised by Customer.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "customer"
+                ],
+                "summary": "getAllIssuesByCustomer",
+                "parameters": [
+                    {
+                        "description": "returns all issues raised by customers  in Db",
+                        "name": "device",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.GetAllIssuesRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/customer/getAllOfficerIssues": {
             "get": {
                 "description": "returns all issues raised by officers  of a Customer.",
@@ -156,7 +187,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.GetAllOfficerIssuesRequest"
+                            "$ref": "#/definitions/api.GetAllIssuesRequest"
                         }
                     }
                 ],
@@ -288,7 +319,7 @@ const docTemplate = `{
                 }
             }
         },
-        "api.GetAllOfficerIssuesRequest": {
+        "api.GetAllIssuesRequest": {
             "type": "object",
             "required": [
                 "customerid",
