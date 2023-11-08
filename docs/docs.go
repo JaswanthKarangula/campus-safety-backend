@@ -77,6 +77,37 @@ const docTemplate = `{
                 }
             }
         },
+        "/customer/getAllActiveOfficers": {
+            "get": {
+                "description": "returns all active security officers.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "customer"
+                ],
+                "summary": "getActiveOfficers",
+                "parameters": [
+                    {
+                        "description": "returns active security officers For Customer  in Db",
+                        "name": "device",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.GetActiveOfficersRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/officer/createOfficer": {
             "post": {
                 "description": "adds a New Security officer For Customer  in Db.",
@@ -84,7 +115,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "customer"
+                    "officer"
                 ],
                 "summary": "createNewSecurityOfficer",
                 "parameters": [
@@ -138,11 +169,11 @@ const docTemplate = `{
             ],
             "properties": {
                 "email": {
-                    "type": "string",
-                    "minLength": 6
+                    "type": "string"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 6
                 },
                 "username": {
                     "type": "string"
@@ -170,6 +201,17 @@ const docTemplate = `{
                 },
                 "username": {
                     "type": "string"
+                }
+            }
+        },
+        "api.GetActiveOfficersRequest": {
+            "type": "object",
+            "required": [
+                "customerid"
+            ],
+            "properties": {
+                "customerid": {
+                    "type": "integer"
                 }
             }
         }

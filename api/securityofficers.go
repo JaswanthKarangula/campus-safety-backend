@@ -24,7 +24,7 @@ type CreateNewSecurityOfficerRequestRequest struct {
 // @Description 	adds a New Security officer For Customer  in Db.
 // @Param 			device body CreateNewSecurityOfficerRequestRequest true "adds a New officer For Customer  in Db"
 // @Produce 		application/json
-// @Tags 			customer
+// @Tags 			officer
 // @Success 		200 {object} string
 // @Router			/officer/createOfficer [post]
 func (server *Server) createNewSecurityOfficer(ctx *gin.Context) {

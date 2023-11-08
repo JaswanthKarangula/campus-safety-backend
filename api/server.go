@@ -85,6 +85,7 @@ func parseError(err error, ctx *gin.Context) {
 		case "unique_violation":
 			ctx.JSON(http.StatusForbidden, errorResponse(err))
 			return
+			// invalid query parameter
 		}
 	}
 	ctx.JSON(http.StatusInternalServerError, errorResponse(err))

@@ -30,13 +30,16 @@ FROM "Drones" d
 WHERE c.customer_id = $1;
 
 -- name: GetAllActiveSecurityOfficers :many
-SELECT so.*
-FROM "SecuritOfficers" so
+SELECT u.*
+FROM "Users" u
+         JOIN "SecuritOfficers" so ON u.user_id = so.officer_id
          JOIN "SecurityOfficerSchedule" sch ON so.officer_id = sch.officer_id
-WHERE
-        sch.day = EXTRACT(DOW FROM NOW())::varchar AND
-    sch.start_time <= CURRENT_TIME AND
-    sch.end_time >= CURRENT_TIME;
+         JOIN "Customers" c ON so.customer_id = c.customer_id
+WHERE c.customer_id = $1
+  AND sch.day = TO_CHAR(NOW(), 'Dy')
+  AND sch.start_time <= TO_CHAR(NOW(), 'HH24:MI:SS')::time
+  AND sch.end_time >= TO_CHAR(NOW(), 'HH24:MI:SS')::time;
+
 
 
 

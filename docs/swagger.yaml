@@ -15,9 +15,9 @@ definitions:
   api.CreateNewAdminRequest:
     properties:
       email:
-        minLength: 6
         type: string
       password:
+        minLength: 6
         type: string
       username:
         type: string
@@ -42,6 +42,13 @@ definitions:
     - email
     - password
     - username
+    type: object
+  api.GetActiveOfficersRequest:
+    properties:
+      customerid:
+        type: integer
+    required:
+    - customerid
     type: object
 host: 0.0.0.0:8080
 info:
@@ -90,6 +97,26 @@ paths:
       summary: creates a new admin
       tags:
       - admin
+  /customer/getAllActiveOfficers:
+    get:
+      description: returns all active security officers.
+      parameters:
+      - description: returns active security officers For Customer  in Db
+        in: body
+        name: device
+        required: true
+        schema:
+          $ref: '#/definitions/api.GetActiveOfficersRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: getActiveOfficers
+      tags:
+      - customer
   /officer/createOfficer:
     post:
       description: adds a New Security officer For Customer  in Db.
@@ -109,5 +136,5 @@ paths:
             type: string
       summary: createNewSecurityOfficer
       tags:
-      - customer
+      - officer
 swagger: "2.0"

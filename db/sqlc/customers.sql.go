@@ -122,25 +122,34 @@ func (q *Queries) GetAlertsCountsByPriority(ctx context.Context, customerID int6
 }
 
 const getAllActiveSecurityOfficers = `-- name: GetAllActiveSecurityOfficers :many
-SELECT so.officer_id, so.customer_id
-FROM "SecuritOfficers" so
+SELECT u.user_id, u.username, u.email, u.hashedpassword, u.role, u.created_at
+FROM "Users" u
+         JOIN "SecuritOfficers" so ON u.user_id = so.officer_id
          JOIN "SecurityOfficerSchedule" sch ON so.officer_id = sch.officer_id
-WHERE
-        sch.day = EXTRACT(DOW FROM NOW())::varchar AND
-    sch.start_time <= CURRENT_TIME AND
-    sch.end_time >= CURRENT_TIME
+         JOIN "Customers" c ON so.customer_id = c.customer_id
+WHERE c.customer_id = $1
+  AND sch.day = TO_CHAR(NOW(), 'Dy')
+  AND sch.start_time <= TO_CHAR(NOW(), 'HH24:MI:SS')::time
+  AND sch.end_time >= TO_CHAR(NOW(), 'HH24:MI:SS')::time
 `
 
-func (q *Queries) GetAllActiveSecurityOfficers(ctx context.Context) ([]SecuritOfficer, error) {
-	rows, err := q.db.QueryContext(ctx, getAllActiveSecurityOfficers)
+func (q *Queries) GetAllActiveSecurityOfficers(ctx context.Context, customerID int64) ([]User, error) {
+	rows, err := q.db.QueryContext(ctx, getAllActiveSecurityOfficers, customerID)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []SecuritOfficer{}
+	items := []User{}
 	for rows.Next() {
-		var i SecuritOfficer
-		if err := rows.Scan(&i.OfficerID, &i.CustomerID); err != nil {
+		var i User
+		if err := rows.Scan(
+			&i.UserID,
+			&i.Username,
+			&i.Email,
+			&i.Hashedpassword,
+			&i.Role,
+			&i.CreatedAt,
+		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)

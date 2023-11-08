@@ -15,7 +15,7 @@ type Querier interface {
 	CreateNewSecurityOfficer(ctx context.Context, arg CreateNewSecurityOfficerParams) (SecuritOfficer, error)
 	DeleteDrone(ctx context.Context, droneID int64) (Drone, error)
 	GetAlertsCountsByPriority(ctx context.Context, customerID int64) ([]GetAlertsCountsByPriorityRow, error)
-	GetAllActiveSecurityOfficers(ctx context.Context) ([]SecuritOfficer, error)
+	GetAllActiveSecurityOfficers(ctx context.Context, customerID int64) ([]User, error)
 	GetAllAlerts(ctx context.Context, customerID int64) (SafetyDetectionAlert, error)
 	GetAllDronesByCustomer(ctx context.Context, customerID int64) ([]Drone, error)
 	GetAllIssuesByAllSecurityOfficers(ctx context.Context, customerID int64) ([]Issue, error)
