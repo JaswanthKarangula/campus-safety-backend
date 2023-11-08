@@ -6,3 +6,14 @@ FROM "Issues" i
          JOIN "SecuritOfficers" so ON soi.officer_id = so.officer_id
          JOIN "Customers" c ON so.customer_id = c.customer_id
 WHERE c.customer_id = $1;
+
+-- name: CreateNewSecurityOfficer :one
+WITH new_security_officer AS (
+INSERT INTO "Users" (username, email, hashedpassword, role)
+VALUES ($1, $2, $3, 'Security Officer')
+    RETURNING *
+    )
+INSERT INTO "SecuritOfficers" (officer_id, customer_id)
+SELECT user_id, $4
+FROM new_security_officer
+RETURNING *;

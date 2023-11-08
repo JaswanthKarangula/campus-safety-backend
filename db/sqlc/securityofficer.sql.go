@@ -9,6 +9,37 @@ import (
 	"context"
 )
 
+const createNewSecurityOfficer = `-- name: CreateNewSecurityOfficer :one
+WITH new_security_officer AS (
+INSERT INTO "Users" (username, email, hashedpassword, role)
+VALUES ($1, $2, $3, 'Security Officer')
+    RETURNING user_id, username, email, hashedpassword, role, created_at
+    )
+INSERT INTO "SecuritOfficers" (officer_id, customer_id)
+SELECT user_id, $4
+FROM new_security_officer
+RETURNING officer_id, customer_id
+`
+
+type CreateNewSecurityOfficerParams struct {
+	Username       string `json:"username"`
+	Email          string `json:"email"`
+	Hashedpassword string `json:"hashedpassword"`
+	CustomerID     int64  `json:"customer_id"`
+}
+
+func (q *Queries) CreateNewSecurityOfficer(ctx context.Context, arg CreateNewSecurityOfficerParams) (SecuritOfficer, error) {
+	row := q.db.QueryRowContext(ctx, createNewSecurityOfficer,
+		arg.Username,
+		arg.Email,
+		arg.Hashedpassword,
+		arg.CustomerID,
+	)
+	var i SecuritOfficer
+	err := row.Scan(&i.OfficerID, &i.CustomerID)
+	return i, err
+}
+
 const getAllIssuesByAllSecurityOfficers = `-- name: GetAllIssuesByAllSecurityOfficers :many
 SELECT i.issue_id, i.description, i.status, i.comments, i.created_at
 FROM "Issues" i

@@ -12,6 +12,7 @@ type Querier interface {
 	AddNewDrone(ctx context.Context, arg AddNewDroneParams) (Drone, error)
 	CreateNewAdmin(ctx context.Context, arg CreateNewAdminParams) (int64, error)
 	CreateNewCustomer(ctx context.Context, arg CreateNewCustomerParams) (Customer, error)
+	CreateNewSecurityOfficer(ctx context.Context, arg CreateNewSecurityOfficerParams) (SecuritOfficer, error)
 	DeleteDrone(ctx context.Context, droneID int64) (Drone, error)
 	GetAlertsCountsByPriority(ctx context.Context, customerID int64) ([]GetAlertsCountsByPriorityRow, error)
 	GetAllActiveSecurityOfficers(ctx context.Context) ([]SecuritOfficer, error)
