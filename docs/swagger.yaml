@@ -70,6 +70,19 @@ definitions:
     - limit
     - offset
     type: object
+  db.Issue:
+    properties:
+      comments:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      issue_id:
+        type: integer
+      status:
+        type: string
+    type: object
 host: 0.0.0.0:8080
 info:
   contact: {}
@@ -173,7 +186,9 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            items:
+              $ref: '#/definitions/db.Issue'
+            type: array
       summary: getAllIssuesByCustomer
       tags:
       - customer

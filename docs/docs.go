@@ -164,7 +164,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/db.Issue"
+                            }
                         }
                     }
                 }
@@ -335,6 +338,26 @@ const docTemplate = `{
                 },
                 "offset": {
                     "type": "integer"
+                }
+            }
+        },
+        "db.Issue": {
+            "type": "object",
+            "properties": {
+                "comments": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "issue_id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
                 }
             }
         }

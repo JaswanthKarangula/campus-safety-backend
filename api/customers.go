@@ -30,7 +30,7 @@ type GetAllIssuesRequest struct {
 // @Param 			device body GetAllIssuesRequest true "returns all issues raised by customers  in Db"
 // @Produce 		application/json
 // @Tags 			customer
-// @Success 		200 {object} string
+// @Success 		200 {object} []db.Issue
 // @Router			/customer/getAllIssuesByCustomer [get]
 func (server *Server) getAllIssuesByCustomer(ctx *gin.Context) {
 
@@ -59,7 +59,7 @@ func (server *Server) getAllIssuesByCustomer(ctx *gin.Context) {
 // @Param 			device body GetAllIssuesRequest true "returns all issues raised by officers  of a Customer in Db"
 // @Produce 		application/json
 // @Tags 			customer
-// @Success 		200 {object} string
+// @Success 		200 {object} []db.Issue
 // @Router			/customer/getAllOfficerIssues [get]
 func (server *Server) getAllOfficerIssues(ctx *gin.Context) {
 
@@ -92,7 +92,7 @@ type GetAllDronesRequest struct {
 // @Param 			device body GetAllDronesRequest true "returns all drones  of a Customer  in Db"
 // @Produce 		application/json
 // @Tags 			customer
-// @Success 		200 {object} string
+// @Success 		200 {object} []db.Drone
 // @Router			/customer/getAllDrones [get]
 func (server *Server) getAllDrones(ctx *gin.Context) {
 
@@ -120,7 +120,7 @@ type GetActiveOfficersRequest struct {
 // @Param 			device body GetActiveOfficersRequest true "returns active security officers For Customer  in Db"
 // @Produce 		application/json
 // @Tags 			customer
-// @Success 		200 {object} string
+// @Success 		200 {object} []db.User
 // @Router			/customer/getAllActiveOfficers [get]
 func (server *Server) getActiveOfficers(ctx *gin.Context) {
 
