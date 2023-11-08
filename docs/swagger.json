@@ -7,5 +7,109 @@
         "version": "1.0"
     },
     "host": "0.0.0.0:8080",
-    "paths": {}
+    "paths": {
+        "/addNewDrone": {
+            "post": {
+                "description": "adds a New Drone For Customer  in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "customer"
+                ],
+                "summary": "addNewDroneForCustomer",
+                "parameters": [
+                    {
+                        "description": "adds a New Drone For Customer  in Db",
+                        "name": "device",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.AddNewDroneRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/createAdmin": {
+            "post": {
+                "description": "adds a New admin in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "admin"
+                ],
+                "summary": "creates a new admin",
+                "parameters": [
+                    {
+                        "description": "adds a New Drone For Customer  in Db",
+                        "name": "device",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.CreateNewAdminRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "api.AddNewDroneRequest": {
+            "type": "object",
+            "required": [
+                "customer_id",
+                "model",
+                "status"
+            ],
+            "properties": {
+                "customer_id": {
+                    "type": "integer"
+                },
+                "model": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.CreateNewAdminRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "minLength": 6
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        }
+    }
 }

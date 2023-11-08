@@ -1,10 +1,16 @@
 package api
 
 import (
+	db "dronesaefty-backend/db/sqlc"
 	"dronesaefty-backend/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
+
+func (server *Server) SetUpCustomerRouter() {
+
+	server.router.POST("/customer/addNewDrone", server.addNewDroneForCustomer)
+}
 
 type AddNewDroneRequest struct {
 	Model      string `json:"model" binding:"required"`
@@ -27,8 +33,13 @@ func (server *Server) addNewDroneForCustomer(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
+	arg := db.AddNewDroneParams{
+		Model:      req.Model,
+		Status:     req.Status,
+		CustomerID: req.CustomerID,
+	}
 
-	res, err := service.AddNewDrone(ctx, server.store, req)
+	res, err := service.AddNewDrone(ctx, server.store, arg)
 	if err != nil {
 		parseError(err, ctx)
 	}

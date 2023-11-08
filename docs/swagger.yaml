@@ -1,8 +1,76 @@
+definitions:
+  api.AddNewDroneRequest:
+    properties:
+      customer_id:
+        type: integer
+      model:
+        type: string
+      status:
+        type: string
+    required:
+    - customer_id
+    - model
+    - status
+    type: object
+  api.CreateNewAdminRequest:
+    properties:
+      email:
+        minLength: 6
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - email
+    - password
+    - username
+    type: object
 host: 0.0.0.0:8080
 info:
   contact: {}
   description: Gym-backend API
   title: Gym-backend API
   version: "1.0"
-paths: {}
+paths:
+  /addNewDrone:
+    post:
+      description: adds a New Drone For Customer  in Db.
+      parameters:
+      - description: adds a New Drone For Customer  in Db
+        in: body
+        name: device
+        required: true
+        schema:
+          $ref: '#/definitions/api.AddNewDroneRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: addNewDroneForCustomer
+      tags:
+      - customer
+  /createAdmin:
+    post:
+      description: adds a New admin in Db.
+      parameters:
+      - description: adds a New Drone For Customer  in Db
+        in: body
+        name: device
+        required: true
+        schema:
+          $ref: '#/definitions/api.CreateNewAdminRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: creates a new admin
+      tags:
+      - admin
 swagger: "2.0"

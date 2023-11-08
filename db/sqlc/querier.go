@@ -10,6 +10,7 @@ import (
 
 type Querier interface {
 	AddNewDrone(ctx context.Context, arg AddNewDroneParams) (Drone, error)
+	CreateNewAdmin(ctx context.Context, arg CreateNewAdminParams) (int64, error)
 	CreateNewCustomer(ctx context.Context, arg CreateNewCustomerParams) (Customer, error)
 	DeleteDrone(ctx context.Context, droneID int64) (Drone, error)
 	GetAlertsCountsByPriority(ctx context.Context, customerID int64) ([]GetAlertsCountsByPriorityRow, error)
@@ -20,6 +21,7 @@ type Querier interface {
 	GetAllIssuesByCustomer(ctx context.Context, customerID int64) ([]Issue, error)
 	GetAllUnResolvedAlertsByDetectionType(ctx context.Context, arg GetAllUnResolvedAlertsByDetectionTypeParams) ([]SafetyDetectionAlert, error)
 	GetUnResolvedAlertsCountsByPriority(ctx context.Context, customerID int64) ([]GetUnResolvedAlertsCountsByPriorityRow, error)
+	GetUser(ctx context.Context, userID int64) (User, error)
 	StopDroneStream(ctx context.Context, arg StopDroneStreamParams) (Feed, error)
 }
 

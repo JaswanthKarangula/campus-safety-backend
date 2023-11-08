@@ -65,7 +65,13 @@ func (server *Server) setupRouter() {
 
 	router.GET("/h", HealthCheck)
 
+	//router.POST("/admin/createAdmin",server.createNewAdmin)
+
 	server.router = router
+
+	server.SetUpAdminRouter()
+	server.SetUpCustomerRouter()
+	server.SetUpSecurityOfficerRouter()
 }
 
 // Start runs the HTTP server on a specific address.
