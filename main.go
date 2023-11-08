@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"dronesaefty-backend/api"
 	db "dronesaefty-backend/db/sqlc"
+	_ "dronesaefty-backend/docs"
 	"dronesaefty-backend/util"
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
@@ -12,9 +13,9 @@ import (
 	"log"
 )
 
-// @title Gym-backend API
+// @title Drone Saefty Backend
 // @version 1.0
-// @description Gym-backend API
+// @description Drone Saefty Backend
 
 // @host 0.0.0.0:8080
 // @basePath

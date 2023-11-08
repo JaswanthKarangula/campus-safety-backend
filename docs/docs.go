@@ -46,7 +46,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/createAdmin": {
+        "/admin/createAdmin": {
             "post": {
                 "description": "adds a New admin in Db.",
                 "produces": [
@@ -64,6 +64,37 @@ const docTemplate = `{
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/api.CreateNewAdminRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/officer/createOfficer": {
+            "post": {
+                "description": "adds a New Security officer For Customer  in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "customer"
+                ],
+                "summary": "createNewSecurityOfficer",
+                "parameters": [
+                    {
+                        "description": "adds a New officer For Customer  in Db",
+                        "name": "device",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.CreateNewSecurityOfficerRequestRequest"
                         }
                     }
                 ],
@@ -117,6 +148,30 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        },
+        "api.CreateNewSecurityOfficerRequestRequest": {
+            "type": "object",
+            "required": [
+                "customerid",
+                "email",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "customerid": {
+                    "type": "integer"
+                },
+                "email": {
+                    "type": "string",
+                    "minLength": 6
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
         }
     }
 }`
@@ -127,8 +182,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "0.0.0.0:8080",
 	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "Gym-backend API",
-	Description:      "Gym-backend API",
+	Title:            "Drone Saefty Backend",
+	Description:      "Drone Saefty Backend",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

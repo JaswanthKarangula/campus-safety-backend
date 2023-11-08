@@ -14,8 +14,8 @@ func (server *Server) SetUpAdminRouter() {
 
 type CreateNewAdminRequest struct {
 	Username string `json:"username" binding:"required,alphanum"`
-	Email    string `json:"email" binding:"required,min=6"`
-	Password string `json:"password" binding:"required,email"`
+	Password string `json:"password" binding:"required,min=6"`
+	Email    string `json:"email" binding:"required,email"`
 }
 
 // CreateTags		godoc
@@ -25,7 +25,7 @@ type CreateNewAdminRequest struct {
 // @Produce 		application/json
 // @Tags 			admin
 // @Success 		200 {object} string
-// @Router			/createAdmin [post]
+// @Router			/admin/createAdmin [post]
 func (server *Server) createNewAdmin(ctx *gin.Context) {
 
 	var req CreateNewAdminRequest

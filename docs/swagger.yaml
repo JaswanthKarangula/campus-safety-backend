@@ -26,11 +26,28 @@ definitions:
     - password
     - username
     type: object
+  api.CreateNewSecurityOfficerRequestRequest:
+    properties:
+      customerid:
+        type: integer
+      email:
+        minLength: 6
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - customerid
+    - email
+    - password
+    - username
+    type: object
 host: 0.0.0.0:8080
 info:
   contact: {}
-  description: Gym-backend API
-  title: Gym-backend API
+  description: Drone Saefty Backend
+  title: Drone Saefty Backend
   version: "1.0"
 paths:
   /addNewDrone:
@@ -53,7 +70,7 @@ paths:
       summary: addNewDroneForCustomer
       tags:
       - customer
-  /createAdmin:
+  /admin/createAdmin:
     post:
       description: adds a New admin in Db.
       parameters:
@@ -73,4 +90,24 @@ paths:
       summary: creates a new admin
       tags:
       - admin
+  /officer/createOfficer:
+    post:
+      description: adds a New Security officer For Customer  in Db.
+      parameters:
+      - description: adds a New officer For Customer  in Db
+        in: body
+        name: device
+        required: true
+        schema:
+          $ref: '#/definitions/api.CreateNewSecurityOfficerRequestRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: createNewSecurityOfficer
+      tags:
+      - customer
 swagger: "2.0"

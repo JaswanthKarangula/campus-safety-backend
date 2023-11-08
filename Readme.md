@@ -159,6 +159,8 @@ install swagger cmd
 go get -u github.com/swaggo/files
 go get -u github.com/swaggo/gin-swagger
 
+
+add _ "dronesaefty-backend/docs" in main
 add router docs swagger
 add annotations swagger in main function
 swag init

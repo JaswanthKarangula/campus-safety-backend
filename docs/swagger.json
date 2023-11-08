@@ -1,8 +1,8 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "Gym-backend API",
-        "title": "Gym-backend API",
+        "description": "Drone Saefty Backend",
+        "title": "Drone Saefty Backend",
         "contact": {},
         "version": "1.0"
     },
@@ -39,7 +39,7 @@
                 }
             }
         },
-        "/createAdmin": {
+        "/admin/createAdmin": {
             "post": {
                 "description": "adds a New admin in Db.",
                 "produces": [
@@ -57,6 +57,37 @@
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/api.CreateNewAdminRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/officer/createOfficer": {
+            "post": {
+                "description": "adds a New Security officer For Customer  in Db.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "customer"
+                ],
+                "summary": "createNewSecurityOfficer",
+                "parameters": [
+                    {
+                        "description": "adds a New officer For Customer  in Db",
+                        "name": "device",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.CreateNewSecurityOfficerRequestRequest"
                         }
                     }
                 ],
@@ -99,6 +130,30 @@
                 "username"
             ],
             "properties": {
+                "email": {
+                    "type": "string",
+                    "minLength": 6
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.CreateNewSecurityOfficerRequestRequest": {
+            "type": "object",
+            "required": [
+                "customerid",
+                "email",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "customerid": {
+                    "type": "integer"
+                },
                 "email": {
                     "type": "string",
                     "minLength": 6
