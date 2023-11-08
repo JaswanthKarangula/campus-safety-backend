@@ -1,10 +1,20 @@
+-- name: CreateNewCustomer :one
+WITH new_customer AS (
+INSERT INTO "Users" (username, email, hashedpassword, role)
+VALUES ($1, $2, $3, 'Customer')
+    RETURNING *
+    )
+INSERT INTO "Customers" (customer_id, customer_name, admin_id)
+SELECT user_id, username, 1
+FROM new_customer
+    RETURNING *;
+
+
 -- name: DeleteDrone :one
 DELETE FROM "Drones"
 WHERE drone_id = $1 RETURNING *;
 
--- name: CreateNewCustomer :one
-INSERT INTO "Customers" (customer_name, admin_id, resource_usage)
-VALUES ($1,$2,$3)  RETURNING *;
+
 
 
 -- name: GetAllIssuesByCustomer :many

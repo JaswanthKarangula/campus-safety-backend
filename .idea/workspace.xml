@@ -6,15 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="aaab5820-7efe-4465-a85a-fb2b08b33d81" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/admin.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/admin.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/customers.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/customers.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/sqlc/querier.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/sqlc/querier.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/docs.go" beforeDir="false" afterPath="$PROJECT_DIR$/docs/docs.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/admin.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/admin.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/customer.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/customer.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

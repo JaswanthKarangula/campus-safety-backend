@@ -36,18 +36,25 @@ func (q *Queries) AddNewDrone(ctx context.Context, arg AddNewDroneParams) (Drone
 }
 
 const createNewCustomer = `-- name: CreateNewCustomer :one
-INSERT INTO "Customers" (customer_name, admin_id, resource_usage)
-VALUES ($1,$2,$3)  RETURNING customer_id, customer_name, admin_id, resource_usage
+WITH new_customer AS (
+INSERT INTO "Users" (username, email, hashedpassword, role)
+VALUES ($1, $2, $3, 'Customer')
+    RETURNING user_id, username, email, hashedpassword, role, created_at
+    )
+INSERT INTO "Customers" (customer_id, customer_name, admin_id)
+SELECT user_id, username, 1
+FROM new_customer
+    RETURNING customer_id, customer_name, admin_id, resource_usage
 `
 
 type CreateNewCustomerParams struct {
-	CustomerName  string        `json:"customer_name"`
-	AdminID       int64         `json:"admin_id"`
-	ResourceUsage sql.NullInt32 `json:"resource_usage"`
+	Username       string `json:"username"`
+	Email          string `json:"email"`
+	Hashedpassword string `json:"hashedpassword"`
 }
 
 func (q *Queries) CreateNewCustomer(ctx context.Context, arg CreateNewCustomerParams) (Customer, error) {
-	row := q.db.QueryRowContext(ctx, createNewCustomer, arg.CustomerName, arg.AdminID, arg.ResourceUsage)
+	row := q.db.QueryRowContext(ctx, createNewCustomer, arg.Username, arg.Email, arg.Hashedpassword)
 	var i Customer
 	err := row.Scan(
 		&i.CustomerID,
