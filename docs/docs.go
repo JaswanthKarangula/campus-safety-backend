@@ -108,6 +108,68 @@ const docTemplate = `{
                 }
             }
         },
+        "/customer/getAllDrones": {
+            "get": {
+                "description": "eturns all drones  of a Customer.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "customer"
+                ],
+                "summary": "getAllDrones",
+                "parameters": [
+                    {
+                        "description": "returns all drones  of a Customer  in Db",
+                        "name": "device",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.GetAllDronesRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/customer/getAllOfficerIssues": {
+            "get": {
+                "description": "returns all issues raised by officers  of a Customer.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "customer"
+                ],
+                "summary": "getAllOfficerIssues",
+                "parameters": [
+                    {
+                        "description": "returns all issues raised by officers  of a Customer in Db",
+                        "name": "device",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.GetAllOfficerIssuesRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/officer/createOfficer": {
             "post": {
                 "description": "adds a New Security officer For Customer  in Db.",
@@ -211,6 +273,36 @@ const docTemplate = `{
             ],
             "properties": {
                 "customerid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "api.GetAllDronesRequest": {
+            "type": "object",
+            "required": [
+                "customerid"
+            ],
+            "properties": {
+                "customerid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "api.GetAllOfficerIssuesRequest": {
+            "type": "object",
+            "required": [
+                "customerid",
+                "limit",
+                "offset"
+            ],
+            "properties": {
+                "customerid": {
+                    "type": "integer"
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "offset": {
                     "type": "integer"
                 }
             }

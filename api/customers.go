@@ -13,7 +13,43 @@ func (server *Server) SetUpCustomerRouter() {
 	server.router.POST("/customer/createCustomer", server.createNewCustomer)
 	server.router.GET("/customer/getAllActiveOfficers", server.getActiveOfficers)
 	server.router.GET("/customer/getAllDrones", server.getAllDrones)
+	server.router.GET("/customer/getAllOfficerIssues", server.getAllOfficerIssues)
 
+}
+
+type GetAllOfficerIssuesRequest struct {
+	CustomerID int64 `json:"customerid" binding:"required"`
+	Limit      int32 `json:"limit" binding:"required"`
+	Offset     int32 `json:"offset" binding:"required"`
+}
+
+// CreateTags		godoc
+// @Summary			getAllOfficerIssues
+// @Description 	returns all issues raised by officers  of a Customer.
+// @Param 			device body GetAllOfficerIssuesRequest true "returns all issues raised by officers  of a Customer in Db"
+// @Produce 		application/json
+// @Tags 			customer
+// @Success 		200 {object} string
+// @Router			/customer/getAllOfficerIssues [get]
+func (server *Server) getAllOfficerIssues(ctx *gin.Context) {
+
+	var req GetAllOfficerIssuesRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+	arg := db.GetAllOfficerIssuesParams{
+		CustomerID: req.CustomerID,
+		Limit:      req.Limit,
+		Offset:     req.Offset,
+	}
+
+	res, err := service.GetAllOfficerIssues(ctx, server.store, arg)
+	if err != nil {
+		parseError(err, ctx)
+	}
+
+	ctx.JSON(http.StatusOK, res)
 }
 
 type GetAllDronesRequest struct {
@@ -36,7 +72,7 @@ func (server *Server) getAllDrones(ctx *gin.Context) {
 		return
 	}
 
-	res, err := service.GetActiveOfficers(ctx, server.store, req.CustomerID)
+	res, err := service.GetAllDrones(ctx, server.store, req.CustomerID)
 	if err != nil {
 		parseError(err, ctx)
 	}

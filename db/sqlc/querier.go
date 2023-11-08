@@ -20,6 +20,7 @@ type Querier interface {
 	GetAllDronesByCustomer(ctx context.Context, customerID int64) ([]Drone, error)
 	GetAllIssuesByAllSecurityOfficers(ctx context.Context, customerID int64) ([]Issue, error)
 	GetAllIssuesByCustomer(ctx context.Context, customerID int64) ([]Issue, error)
+	GetAllOfficerIssues(ctx context.Context, arg GetAllOfficerIssuesParams) ([]Issue, error)
 	GetAllUnResolvedAlertsByDetectionType(ctx context.Context, arg GetAllUnResolvedAlertsByDetectionTypeParams) ([]SafetyDetectionAlert, error)
 	GetUnResolvedAlertsCountsByPriority(ctx context.Context, customerID int64) ([]GetUnResolvedAlertsCountsByPriorityRow, error)
 	GetUser(ctx context.Context, userID int64) (User, error)

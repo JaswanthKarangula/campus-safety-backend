@@ -50,6 +50,26 @@ definitions:
     required:
     - customerid
     type: object
+  api.GetAllDronesRequest:
+    properties:
+      customerid:
+        type: integer
+    required:
+    - customerid
+    type: object
+  api.GetAllOfficerIssuesRequest:
+    properties:
+      customerid:
+        type: integer
+      limit:
+        type: integer
+      offset:
+        type: integer
+    required:
+    - customerid
+    - limit
+    - offset
+    type: object
 host: 0.0.0.0:8080
 info:
   contact: {}
@@ -115,6 +135,46 @@ paths:
           schema:
             type: string
       summary: getActiveOfficers
+      tags:
+      - customer
+  /customer/getAllDrones:
+    get:
+      description: eturns all drones  of a Customer.
+      parameters:
+      - description: returns all drones  of a Customer  in Db
+        in: body
+        name: device
+        required: true
+        schema:
+          $ref: '#/definitions/api.GetAllDronesRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: getAllDrones
+      tags:
+      - customer
+  /customer/getAllOfficerIssues:
+    get:
+      description: returns all issues raised by officers  of a Customer.
+      parameters:
+      - description: returns all issues raised by officers  of a Customer in Db
+        in: body
+        name: device
+        required: true
+        schema:
+          $ref: '#/definitions/api.GetAllOfficerIssuesRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: getAllOfficerIssues
       tags:
       - customer
   /officer/createOfficer:

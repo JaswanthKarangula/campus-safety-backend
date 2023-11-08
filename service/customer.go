@@ -5,6 +5,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func GetAllOfficerIssues(ctx *gin.Context, store db.Store, req db.GetAllOfficerIssuesParams) ([]db.Issue, error) {
+
+	activeCustomers, err := store.GetAllOfficerIssues(ctx, req)
+
+	if err != nil {
+		return []db.Issue{}, err
+	}
+
+	return activeCustomers, nil
+}
+
 func GetAllDrones(ctx *gin.Context, store db.Store, customerID int64) ([]db.Drone, error) {
 
 	activeCustomers, err := store.GetAllDronesByCustomer(ctx, customerID)

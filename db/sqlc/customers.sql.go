@@ -259,6 +259,60 @@ func (q *Queries) GetAllIssuesByCustomer(ctx context.Context, customerID int64) 
 	return items, nil
 }
 
+const getAllOfficerIssues = `-- name: GetAllOfficerIssues :many
+SELECT i.issue_id, i.description, i.status, i.comments, i.created_at
+FROM "Issues" i
+         JOIN "SecurityOfficerIssues" soi ON i.issue_id = soi.issue_id
+         JOIN "SecuritOfficers" so ON soi.officer_id = so.officer_id
+         JOIN "Customers" c ON so.customer_id = c.customer_id
+WHERE c.customer_id = $1
+ORDER BY
+    CASE
+        WHEN i.status = 'New' THEN 1
+        WHEN i.status = 'Pending' THEN 2
+        WHEN i.status = 'Resolved' THEN 3
+        ELSE 4
+        END,
+    i.created_at
+    LIMIT $3 -- Number of issues per page
+OFFSET $2
+`
+
+type GetAllOfficerIssuesParams struct {
+	CustomerID int64 `json:"customer_id"`
+	Offset     int32 `json:"offset"`
+	Limit      int32 `json:"limit"`
+}
+
+func (q *Queries) GetAllOfficerIssues(ctx context.Context, arg GetAllOfficerIssuesParams) ([]Issue, error) {
+	rows, err := q.db.QueryContext(ctx, getAllOfficerIssues, arg.CustomerID, arg.Offset, arg.Limit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []Issue{}
+	for rows.Next() {
+		var i Issue
+		if err := rows.Scan(
+			&i.IssueID,
+			&i.Description,
+			&i.Status,
+			&i.Comments,
+			&i.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getAllUnResolvedAlertsByDetectionType = `-- name: GetAllUnResolvedAlertsByDetectionType :many
 SELECT sda.alert_id, sda.timestamp, sda.frame_id, sda.drone_id, sda.stream_id, sda.detection_type_id, sda.description, sda.status
 FROM "SafetyDetectionAlerts" sda

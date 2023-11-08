@@ -87,6 +87,23 @@ FROM "SafetyDetectionAlerts" sda
 WHERE c.customer_id = $1 AND sda.detection_type_id = $2;
 
 
+-- name: GetAllOfficerIssues :many
+SELECT i.*
+FROM "Issues" i
+         JOIN "SecurityOfficerIssues" soi ON i.issue_id = soi.issue_id
+         JOIN "SecuritOfficers" so ON soi.officer_id = so.officer_id
+         JOIN "Customers" c ON so.customer_id = c.customer_id
+WHERE c.customer_id = $1
+ORDER BY
+    CASE
+        WHEN i.status = 'New' THEN 1
+        WHEN i.status = 'Pending' THEN 2
+        WHEN i.status = 'Resolved' THEN 3
+        ELSE 4
+        END,
+    i.created_at
+    LIMIT $3 -- Number of issues per page
+OFFSET $2; -- Page number (0-based)
 
 
 
