@@ -17,3 +17,15 @@ INSERT INTO "SecuritOfficers" (officer_id, customer_id)
 SELECT user_id, $4
 FROM new_security_officer
 RETURNING *;
+
+-- name: CreateSecurityOfficerIssue :one
+WITH new_issue AS (
+INSERT INTO "Issues" (description, status, comments)
+VALUES ($1, 'New', '')
+    RETURNING issue_id
+    )
+INSERT INTO "SecurityOfficerIssues" (officer_id, issue_id)
+SELECT $2, issue_id
+FROM new_issue
+RETURNING *;
+

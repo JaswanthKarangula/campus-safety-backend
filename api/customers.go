@@ -15,6 +15,7 @@ func (server *Server) SetUpCustomerRouter() {
 	server.router.GET("/customer/getAllDrones", server.getAllDrones)
 	server.router.GET("/customer/getAllOfficerIssues", server.getAllOfficerIssues)
 	server.router.GET("/customer/getAllIssuesByCustomer", server.getAllIssuesByCustomer)
+	server.router.POST("/customer/raiseCustomerIssue", server.createNewCustomerIssue)
 
 }
 
@@ -184,7 +185,7 @@ type CreateNewCustomerRequest struct {
 // @Produce 		application/json
 // @Tags 			customer
 // @Success 		200 {object} string
-// @Router			customer/createNewCustomer [post]
+// @Router			/customer/createCustomer [post]
 func (server *Server) createNewCustomer(ctx *gin.Context) {
 
 	var req CreateNewCustomerRequest

@@ -40,6 +40,30 @@ func (q *Queries) CreateNewSecurityOfficer(ctx context.Context, arg CreateNewSec
 	return i, err
 }
 
+const createSecurityOfficerIssue = `-- name: CreateSecurityOfficerIssue :one
+WITH new_issue AS (
+INSERT INTO "Issues" (description, status, comments)
+VALUES ($1, 'New', '')
+    RETURNING issue_id
+    )
+INSERT INTO "SecurityOfficerIssues" (officer_id, issue_id)
+SELECT $2, issue_id
+FROM new_issue
+RETURNING customer_id, officer_id, issue_id
+`
+
+type CreateSecurityOfficerIssueParams struct {
+	Description string `json:"description"`
+	OfficerID   int64  `json:"officer_id"`
+}
+
+func (q *Queries) CreateSecurityOfficerIssue(ctx context.Context, arg CreateSecurityOfficerIssueParams) (SecurityOfficerIssue, error) {
+	row := q.db.QueryRowContext(ctx, createSecurityOfficerIssue, arg.Description, arg.OfficerID)
+	var i SecurityOfficerIssue
+	err := row.Scan(&i.CustomerID, &i.OfficerID, &i.IssueID)
+	return i, err
+}
+
 const getAllIssuesByAllSecurityOfficers = `-- name: GetAllIssuesByAllSecurityOfficers :many
 SELECT i.issue_id, i.description, i.status, i.comments, i.created_at
 FROM "Issues" i
