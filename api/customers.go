@@ -10,8 +10,38 @@ import (
 func (server *Server) SetUpCustomerRouter() {
 
 	server.router.POST("/customer/addNewDrone", server.addNewDroneForCustomer)
-	server.router.POST("/customer/createCustomer", server.addNewDroneForCustomer)
-	server.router.GET("/customer/getAllActiveOfficers", server.addNewDroneForCustomer)
+	server.router.POST("/customer/createCustomer", server.createNewCustomer)
+	server.router.GET("/customer/getAllActiveOfficers", server.getActiveOfficers)
+	server.router.GET("/customer/getAllDrones", server.getAllDrones)
+
+}
+
+type GetAllDronesRequest struct {
+	CustomerID int64 `json:"customerid" binding:"required"`
+}
+
+// CreateTags		godoc
+// @Summary			getAllDrones
+// @Description 	eturns all drones  of a Customer.
+// @Param 			device body GetAllDronesRequest true "returns all drones  of a Customer  in Db"
+// @Produce 		application/json
+// @Tags 			customer
+// @Success 		200 {object} string
+// @Router			/customer/getAllDrones [get]
+func (server *Server) getAllDrones(ctx *gin.Context) {
+
+	var req GetAllDronesRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+
+	res, err := service.GetActiveOfficers(ctx, server.store, req.CustomerID)
+	if err != nil {
+		parseError(err, ctx)
+	}
+
+	ctx.JSON(http.StatusOK, res)
 }
 
 type GetActiveOfficersRequest struct {
