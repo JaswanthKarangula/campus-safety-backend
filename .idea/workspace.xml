@@ -6,11 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="aaab5820-7efe-4465-a85a-fb2b08b33d81" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/securityofficers.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/securityofficers.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/query/securityofficer.sql" beforeDir="false" afterPath="$PROJECT_DIR$/db/query/securityofficer.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/sqlc/querier.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/sqlc/querier.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/sqlc/securityofficer.sql.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/sqlc/securityofficer.sql.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/securityoffcier.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/securityoffcier.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +54,23 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="dronesaefty-backend" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+      <module name="dronesaefty-backend" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="DIRECTORY" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="SwaggerCodegen">
       <option name="activeConfigurationType" value="FILE" />
       <option name="configurationPath" value="" />
